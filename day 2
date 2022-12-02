@@ -1,0 +1,109 @@
+/*SECOND STEP ITERATION */
+function calc_strat($i)
+{
+    //explode by line breaks
+    $arr = explode("
+", $i);
+    //set value arrays
+    $ai = ['A' => 'Rock', 'B' => 'Paper', 'C' => 'Scissors'];
+    $total = 0;
+    $strat = [
+        'Rock' => [
+            'X' => 'Scissors',
+            'Y' => 'Rock',
+            'Z' => 'Paper'
+        ],
+        'Paper' => [
+            'X' => 'Rock',
+            'Y' => 'Paper',
+            'Z' => 'Scissors'
+        ],
+        'Scissors' => [
+            'X' => 'Paper',
+            'Y' => 'Scissors',
+            'Z' => 'Rock'
+        ]
+    ];
+    //Loop each round
+    foreach ($arr as $r) {
+        $out = explode(" ", $r);
+        $total += rockPaperScissors($strat[$ai[$out[0]]][$out[1]], $ai[$out[0]]);
+    }
+    //Calc total point to me for the round
+
+    //Add to total
+    return $total;
+}
+function rockPaperScissors($one, $two)
+{
+    $arr = ['Rock' => [
+        'Scissors' => 7,
+        'Rock' => 4,
+        'Paper' => 1
+    ],
+        'Paper' => [
+            'Scissors' => 2,
+            'Rock' => 8,
+            'Paper' => 5
+        ],
+        'Scissors' => [
+            'Scissors' => 6,
+            'Rock' => 3,
+            'Paper' => 9
+        ]];
+    return $arr[$one][$two];
+}
+
+
+
+/*FIRST STEP ITERATION */
+function calc_strat($i){
+    //explode by line breaks
+    $arr = explode("
+", $i);
+    //set value arrays
+    $ai = ['A' => 'Rock', 'B' => 'Paper', 'C' => 'Scissors'];
+    $me = ['X' => 'Rock', 'Y' => 'Paper', 'Z' => 'Scissors'];
+    $total = 0;
+    //Loop each round
+    foreach ($arr as $r){
+        $out = explode(" ", $r);
+        $total += rockPaperScissors($me[$out[1]], $ai[$out[0]]);
+    }
+    //Calc total point to me for the round
+
+    //Add to total
+    return $total;
+}
+
+function rockPaperScissors($one, $two){
+    if (($one == 'Rock') && ($two == 'Paper')){
+        return 1;
+    }
+    if (($one == 'Rock') && ($two == 'Scissors')){
+        return 1+6;
+    }
+    if (($one == 'Rock') && ($two == 'Rock')){
+        return 1+3;
+    }
+
+    if (($one == 'Paper') && ($two == 'Paper')){
+        return 2+3;
+    }
+    if (($one == 'Paper') && ($two == 'Scissors')){
+        return 2;
+    }
+    if (($one == 'Paper') && ($two == 'Rock')){
+        return 2+6;
+    }
+
+    if (($one == 'Scissors') && ($two == 'Paper')){
+        return 3+6;
+    }
+    if (($one == 'Scissors') && ($two == 'Scissors')){
+        return 3+3;
+    }
+    if (($one == 'Scissors') && ($two == 'Rock')){
+        return 3;
+    }
+}
