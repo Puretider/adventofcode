@@ -1,0 +1,15 @@
+function calc_calories($i){
+    //explode by line breaks
+    $arr = explode("
+
+", $i);
+    //sum each array
+    $sums = [];
+    foreach ($arr as $a){
+        $t = explode("\n", $a);
+        $sums[] = array_sum($t);
+    }
+    rsort($sums);
+    //return largest three sums;
+    return $sums[0]+$sums[1]+$sums[2];
+}
