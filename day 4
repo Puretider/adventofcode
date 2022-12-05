@@ -1,0 +1,37 @@
+/*SECOND ITERATION */
+function calc_pairs($i)
+{
+    $pairs = explode("
+", $i);
+    $count = 0;
+    foreach ($pairs as $p){
+        $parts = explode(",", $p);
+        $nums1 = explode("-", $parts[0]);
+        $nums2 = explode("-", $parts[1]);
+        if ((in_array($nums1[0], range($nums2[0], $nums2[1]))) || (in_array($nums1[1], range($nums2[0], $nums2[1])))){
+            $count++;
+        } else if ((in_array($nums2[0], range($nums1[0], $nums1[1]))) || (in_array($nums2[1], range($nums1[0], $nums1[1])))){
+            $count++;
+        }
+    }
+    return $count;
+}
+
+/*FIRST ITERATION */
+function calc_pairs($i)
+{
+    $pairs = explode("
+", $i);
+    $count = 0;
+    foreach ($pairs as $p){
+        $parts = explode(",", $p);
+        $nums1 = explode("-", $parts[0]);
+        $nums2 = explode("-", $parts[1]);
+        if (($nums1[0] >= $nums2[0]) && ($nums1[1] <= $nums2[1])){
+            $count++;
+        } else if (($nums2[0] >= $nums1[0]) && ($nums2[1] <= $nums1[1])){
+            $count++;
+        }
+    }
+    return $count;
+}
