@@ -1,0 +1,53 @@
+/* SECOND ITERATION */
+function stack_shifter($i)
+{
+    $stacks = [
+        1 => 'VRHBGDW',
+        2 => 'FRCGNJ',
+        3 => 'JNDHFSL',
+        4 => 'VSDJ',
+        5 => 'VNWQRDHS',
+        6 => 'MCHGP',
+        7 => 'CHZLGBJF',
+        8 => 'RJS',
+        9 => 'MVNBRSGL'
+    ];
+    $moves = explode("
+", $i);
+    foreach($moves as $move){
+        $str = explode(" ", $move);
+        $to_move = $str[1];
+        $from = $str[3];
+        $to = $str[5];
+        $stacks[$to] = mb_strimwidth($stacks[$from], 0, $to_move).$stacks[$to];
+        $stacks[$from] = substr($stacks[$from], $to_move);
+    }
+    return $stacks;
+}
+
+/*FIRST ITERATION */
+function stack_shifter($i)
+{
+    $stacks = [
+        1 => 'VRHBGDW',
+        2 => 'FRCGNJ',
+        3 => 'JNDHFSL',
+        4 => 'VSDJ',
+        5 => 'VNWQRDHS',
+        6 => 'MCHGP',
+        7 => 'CHZLGBJF',
+        8 => 'RJS',
+        9 => 'MVNBRSGL'
+    ];
+    $moves = explode("
+", $i);
+    foreach($moves as $move){
+        $str = explode(" ", $move);
+        $to_move = $str[1];
+        $from = $str[3];
+        $to = $str[5];
+        $stacks[$to] = strrev(mb_strimwidth($stacks[$from], 0, $to_move)).$stacks[$to];
+        $stacks[$from] = substr($stacks[$from], $to_move);
+    }
+    return $stacks;
+}
