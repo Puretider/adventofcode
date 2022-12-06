@@ -1,0 +1,39 @@
+//SECOND ITERATION
+function locate_marker($i)
+{
+    $r = microtime(true);
+    //Loop through string starting at 13
+    for($a = 13; $a < strlen($i); $a++){
+        //get the fourteen characters at the index.
+        $arr = [];
+        for ($s = 0; $s < 14; $s++){
+            $arr[] = $i[$a-$s];
+        }
+        //Identify how many values in array are unique
+        $arr = array_unique($arr);
+        //return index if number of unique values is adequate
+        if (count($arr) == 14){
+            return [$a+1, microtime(true)-$r];
+        }
+    }
+}
+
+//FIRST ITERATION
+function locate_marker($i)
+{
+    $r = microtime(true);
+    //Loop through string starting at 4
+    for($a = 13; $a < strlen($i); $a++){
+        //get the four characters at the index.
+        $arr = [];
+        for ($s = 0; $s < 4; $s++){
+            $arr[] = $i[$a-$s];
+        }
+        //Identify how many values in array are unique
+        $arr = array_unique($arr);
+        //return index if number of unique values is adequate
+        if (count($arr) == 4){
+            return [$a+1, microtime(true)-$r];
+        }
+    }
+}
