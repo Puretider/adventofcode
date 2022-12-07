@@ -1,0 +1,86 @@
+$lines = "$ cd /
+$ ls
+dir a
+14848514 b.txt
+8504156 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+29116 f
+2557 g
+62596 h.lst
+$ cd e
+$ ls
+584 i
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+4060174 j
+8033020 d.log
+5626152 d.ext
+7214296 k";
+//var_dump(locate_marker("mjqjpqmgbljsphdztnvjfqwrcgsmlb"));
+
+function createTree($lines){
+    $tree = [
+        'name' => '/',
+        'isDirectory' => true,
+        'children' => []
+    ];
+    $currentNode = $tree;
+    $currentCommand = null;
+    $arr = explode("
+", $lines);
+    foreach ($arr as $line){
+        if ($line[0] == '$'){
+            //command
+            $cp = explode(" ", $line);
+            $currentCommand = $cp[1];
+            if ($currentCommand == 'cd'){
+                $target = $cp[2];
+                switch($target){
+                    case '/':
+                        $currentNode = $tree;
+                        break;
+                    case '..':
+                        $currentNode = $currentNode['parent'];
+                        break;
+                    default:
+                        $currentNode = findChild($currentNode['children'], $target);
+                }
+            }
+        } else {
+            $cp = explode (" ", $line);
+            if ($cp[0] == 'dir'){
+                $node = [
+                        'name' => $cp[1],
+                    'isDirectory' => true,
+                    'children' => [],
+                    'parent' => $currentNode
+                ];
+                $currentNode['children'][] = $node;
+            }
+            if (is_numeric($cp[0])){
+                $node = [
+                    'name' => $cp[1],
+                    'size' => $cp[0],
+                    'isDirectory' => false,
+                    'parent' => $currentNode
+                ];
+                $currentNode['children'][] = $node;
+            }
+        }
+    }
+    return $tree;
+}
+
+function findChild($children, $target){
+    foreach ($children as $child){
+        if ($child['name'] == $target){
+            return $child;
+        }
+    }
+}
+var_dump(createTree($lines));
