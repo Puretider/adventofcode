@@ -1,0 +1,248 @@
+/*ITERATION TWO */
+class TreeHunter
+{
+
+    private $cur_index;
+    private $string;
+    private $tree_arr;
+
+    public function __construct($options){
+        $this->string = $options;
+    }
+
+    public function huntTrees(){
+        $t = microtime(true);
+        //Split string into multi dimensional array
+        $this->splitString();
+        $trees = $this->tree_arr;
+        $count = 0;
+        $arr = [];
+        $max = 0;
+        foreach ($trees as $row => $tl){
+            foreach ($tl as $col => $tree){
+                $one = $this->lookLeft($col, $row);
+                $two = $this->lookRight($col, $row);
+                $three = $this->lookUp($col, $row);
+                $four = $this->lookDown($col, $row);
+                if ($max < ($three*$one*$four*$two)){
+                    $max = ($three*$one*$four*$two);
+                }
+
+            }
+        }
+        return [$max, (microtime(true)-$t)];
+    }
+
+    private function splitString(){
+        $str = $this->string;
+        $arr = explode("
+", $str);
+        foreach ($arr as $a){
+            $str_arr = str_split($a);
+            $this->tree_arr[] = $str_arr;
+        }
+    }
+
+    //function to search treeline left
+    function lookLeft($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $col;
+        $trees = 0;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row][$col-1])){
+            return $trees;
+        } else {
+            while ($ind > 0){
+                $ind--;
+                if (isset($this->tree_arr[$row][$ind])) {
+                    $trees++;
+                    if ($this->tree_arr[$row][$ind] >= $height){
+                        return $trees;
+                    }
+                }
+            }
+            return $trees;
+        }
+    }
+
+    //function to search treeline right
+    function lookRight($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $col;
+        $trees = 0;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row][$col+1])){
+            return $trees;
+        } else {
+            while ($ind < count($this->tree_arr[$row])){
+                $ind++;
+                if (isset($this->tree_arr[$row][$ind])) {
+                    $trees++;
+                    if ($this->tree_arr[$row][$ind] >= $height){
+                        return $trees;
+                    }
+                }
+
+            }
+            return $trees;
+        }
+    }
+    //function to search treeline up
+    function lookUp($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $row;
+        $trees = 0;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row-1][$col])){
+            return $trees;
+        } else {
+            while ($ind >= 0){
+                $ind--;
+                if (isset($this->tree_arr[$ind][$col])) {
+                    $trees++;
+                    if ($this->tree_arr[$ind][$col] >= $height){
+                        return $trees;
+                    }
+                }
+
+            }
+            return $trees;
+        }
+    }
+    //function to search treeline down.
+    function lookDown($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $row;
+        $trees = 0;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row+1][$col])){
+            return $trees;
+        } else {
+            while ($ind < count($this->tree_arr)){
+                $ind++;
+                if (isset($this->tree_arr[$ind][$col])) {
+                    $trees++;
+                    if ($this->tree_arr[$ind][$col] >= $height){
+                        return $trees;
+                    }
+                }
+            }
+            return $trees;
+        }
+    }
+}
+
+/*ITERATION ONE */
+class TreeHunter
+{
+
+    private $cur_index;
+    private $string;
+    private $tree_arr;
+
+    public function __construct($options){
+        $this->string = $options;
+    }
+
+    public function huntTrees(){
+        $t = microtime(true);
+        //Split string into multi dimensional array
+        $this->splitString();
+        $trees = $this->tree_arr;
+        $count = 0;
+        $arr = [];
+        foreach ($trees as $row => $tl){
+            foreach ($tl as $col => $tree){
+                $one = $this->lookLeft($col, $row);
+                $two = $this->lookRight($col, $row);
+                $three = $this->lookUp($col, $row);
+                $four = $this->lookDown($col, $row);
+                $arr[] = $two;
+                if (($one == true) || ($two == true) || ($three == true) || ($four == true)){
+                    $count++;
+                }
+            }
+        }
+        return [$count, (microtime(true)-$t)];
+    }
+
+    private function splitString(){
+        $str = $this->string;
+        $arr = explode("
+", $str);
+        foreach ($arr as $a){
+            $str_arr = str_split($a);
+            $this->tree_arr[] = $str_arr;
+        }
+    }
+
+    //function to search treeline left
+    function lookLeft($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $col;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row][$col-1])){
+            return true;
+        } else {
+            while ($ind >= 0){
+                $ind--;
+                if ($this->tree_arr[$row][$ind] >= $height){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    //function to search treeline right
+    function lookRight($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $col;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row][$col+1])){
+            return true;
+        } else {
+            while ($ind < count($this->tree_arr[$row])){
+                $ind++;
+                if ($this->tree_arr[$row][$ind] >= $height){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    //function to search treeline up
+    function lookUp($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $row;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row-1][$col])){
+            return true;
+        } else {
+            while ($ind >= 0){
+                $ind--;
+                if ($this->tree_arr[$ind][$col] >= $height){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    //function to search treeline down.
+    function lookDown($col, $row){
+        $height = $this->tree_arr[$row][$col];
+        $ind = $row;
+        //if this is the edge automatically return true.
+        if (!isset($this->tree_arr[$row+1][$col])){
+            return true;
+        } else {
+            while ($ind < count($this->tree_arr)){
+                $ind++;
+                if ($this->tree_arr[$ind][$col] >= $height){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+}
