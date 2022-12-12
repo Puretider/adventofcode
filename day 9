@@ -1,0 +1,70 @@
+
+/*ITERATION ONE */
+function ropeTrail($str){
+    $h_pos = [];
+    $t_pos = [];
+    $comp = [];
+    //Head location
+    $hr = 0;
+    $hc = 0;
+
+    //Tail Location
+    $lr = 0;
+    $lc = 0;
+
+    $dirs = explode("
+", $str);
+    $t_pos[]= '0, 0';
+    foreach ($dirs as $dir){
+        $d = explode(" ", $dir);
+        for ($i = 0; $i < $d[1]; $i++) {
+            switch ($d[0]) {
+                case 'D':
+                    $hr++;
+                    break;
+                case 'U':
+                    $hr--;
+                    break;
+                case 'R':
+                    $hc++;
+                    break;
+                case 'L':
+                    $hc--;
+                    break;
+                default:
+                    break;
+            }
+            //Right
+            if (($hc-$lc) > 1){
+                $lc = $hc-1;
+                $lr = $hr;
+                if (!in_array($lr.', '.$lc, $t_pos)){
+                $t_pos[] = $lr . ', ' . $lc;
+                }
+                //Left
+            } else if (($hc-$lc) < -1){
+                $lc = $hc+1;
+                $lr = $hr;
+                if (!in_array($lr.', '.$lc, $t_pos)){
+                    $t_pos[] = $lr . ', ' . $lc;
+                }
+                //Down
+            } else if (($hr-$lr) > 1){
+                $lc = $hc;
+                $lr = $hr-1;
+                if (!in_array($lr.', '.$lc, $t_pos)){
+                    $t_pos[] = $lr . ', ' . $lc;
+                }
+                //Up
+            }else if (($hr-$lr) < -1){
+                $lc = $hc;
+                $lr = $hr+1;
+                if (!in_array($lr.', '.$lc, $t_pos)){
+                    $t_pos[] = $lr . ', ' . $lc;
+                }
+            }
+            $h_pos[] = [$hr, $hc];
+        }
+    }
+    return count($t_pos);
+}
